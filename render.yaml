@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: openhands-app
+    runtime: docker
+    docker:
+      image: docker.all-hands.dev/all-hands-ai/openhands:0.41
+      pullPolicy: always
+    envVars:
+      - key: SANDBOX_RUNTIME_CONTAINER_IMAGE
+        value: docker.all-hands.dev/all-hands-ai/runtime:0.41-nikolaik
+      - key: LOG_ALL_EVENTS
+        value: "true"
+    plan: free # Adjust based on your needs (free, starter, standard, pro, etc.)
+    numInstances: 1
+    region: oregon # Adjust to your preferred region (e.g., oregon, frankfurt, singapore)
+    branch: main # Optional: specify the branch for auto-deploys
+    rootDir: / # Default root directory
+    healthCheckPath: / # Optional: specify a health check endpoint if available
+    volumes:
+      - name: openhands-state
+        path: /.openhands-state
+    ports:
+      - containerPort: 3000
+        hostPort: 3000
